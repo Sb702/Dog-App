@@ -1,19 +1,20 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import DogsScreen from "./DogsScreen";
-import UserScreen from "./UserScreen";
-
-const Tab = createBottomTabNavigator();
+import { View, Text, StyleSheet } from "react-native";
 
 function HomeScreen() {
-
-
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Dogs" component={DogsScreen} />
-      <Tab.Screen name="Your Account" component={UserScreen} />
-    </Tab.Navigator>
+    <View style={styles.container}>
+      <Text>Welcome to the Home Screen!</Text>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default HomeScreen;

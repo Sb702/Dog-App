@@ -10,6 +10,7 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({ username: 'sam', password: '' });
+  const [dogs, setDogs] = useState([]);
 
 
   const registerUser = (username, password) => {
@@ -17,12 +18,19 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(true);
   }
 
+  const addDog = (dogName) => {
+    setDogs([...dogs, dogName]);
+  }
+
   const value = {
     isLoggedIn,
     setIsLoggedIn,
     user,
     setUser,
-    registerUser
+    registerUser,
+    addDog, 
+    dogs, 
+    setDogs
   };
 
   return (
