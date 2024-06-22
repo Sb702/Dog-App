@@ -7,6 +7,7 @@ import AuthScreen from "./screens/AuthScreen";
 import DogsScreen from "./screens/DogsScreen";
 import UserScreen from "./screens/UserScreen";
 import Dog from "./screens/Dog";
+import DogEdit from "./screens/DogEdit";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,6 +31,11 @@ function App() {
           <Stack.Screen
             name="Dogs"
             component={Dog}
+            options={{ presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="DogEdit"
+            component={DogEdit}
             options={{ presentation: "modal" }}
           />
         </Stack.Navigator>

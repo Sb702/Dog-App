@@ -13,7 +13,6 @@ export default function DogsScreen({ navigation }) {
       <Text style={styles.headerText}>Welcome {user.username}</Text>
       {/* Form to add dogs */}
       <CustomBtn icon="arrow-back-circle-outline" text="Add Dog" onPress={() => navigation.navigate("Dogs")} />
-
       {/* List of dogs */}
       <DogList />
     </View>
