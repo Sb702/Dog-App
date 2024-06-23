@@ -1,28 +1,42 @@
-import { View, Text, TextInput, FlatList } from "react-native";
+import { View, Text, TextInput, FlatList, StyleSheet } from "react-native";
 import CustomBtn from "../CustomBtn";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import DogTrick from "./DogTrick";
 
 export default function DogTricks({ dog }) {
   const { addDogTricks } = useAuth();
   const [trick, setTrick] = useState("");
 
   function addTrick() {
-    addDogTricks(dog.dogName, trick);
+    addDogTricks(dog.dogName, trick, "beginner");
   }
 
   return (
     <View>
-      <Text>Tricks</Text>
-      <TextInput placeholder="Trick" onChangeText={(text) => setTrick(text)} />
-      <CustomBtn text="Add Trick" icon="add" onPress={addTrick} />
+      <View style={styles.trickOutContainer}>
+        <TextInput
+          placeholder="Trick"
+          onChangeText={(text) => setTrick(text)}
+        />
+        <CustomBtn text="Add Trick" icon="add" onPress={addTrick} />
+      </View>
       {dog.tricks && (
         <FlatList
-            data={dog.tricks}
-            renderItem={({ item }) => <Text>{item}</Text>}
-            keyExtractor={(item, index) => index.toString()}
+          data={dog.tricks}
+          renderItem={({ item }) => <DogTrick name={dog.dogName} item={item} />}
+          keyExtractor={(item, index) => index.toString()}
         />
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  trickOutContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+    gap: 10,
+  },
+});

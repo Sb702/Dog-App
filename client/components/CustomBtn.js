@@ -2,12 +2,12 @@ import React from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function CustomBtn({ onPress, text, icon }) {
+export default function CustomBtn({ onPress, text, icon, color }) {
   return (
     <Pressable style={({ pressed }) => [{ ...styles.button, ...(pressed && styles.pressed) }]} onPress={onPress}>
       <View style={styles.buttonContainer}>
         <Text style={styles.buttonText}>{text}</Text>
-        <Ionicons name={icon} size={24} color="white" />
+        <Ionicons name={icon} size={24} color={color} />
       </View>
     </Pressable>
   );

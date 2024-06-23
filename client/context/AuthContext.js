@@ -27,12 +27,29 @@ export const AuthProvider = ({ children }) => {
     setDogs([...dogs, { dogName, dogBreed, dogAge }]);
   }
 
-  const addDogTricks = (dogName, tricks) => {
+  const addDogTricks = (dogName, tricks, status) => {
     // find dog in list of dogs
     const dog = dogs.find((dog) => dog.dogName === dogName);
-    // add tricks to dog as an array of strings and if there are already tricks, add to them
-    dog.tricks = dog.tricks ? [...dog.tricks, tricks] : [tricks];
+    // Add tricks and status to dog combined together as one object inside of the dogs array
+    // dog.tricks = dog.tricks ? [...dog.tricks, tricks] : [tricks];
+    // dog.status = dog.status ? [...dog.status, status] : [status];
+    dog.tricks = dog.tricks ? [...dog.tricks, {trick: tricks, status: status}] : [{trick: tricks, status: status}];
+
+// if no status make the default "low"
+    // dog.tricks = dog.tricks ? [...dog.tricks, {trick: tricks, status: status}] : [{trick: tricks, status: "low"}];
     // update dog in list of dogs
+    setDogs([...dogs]);
+    console.log(dogs)
+  }
+
+  const updateDogTricksStatus = (dogName, tricks, status) => {
+    // Find dog in list of dogs
+    const dog = dogs.find((dog) => dog.dogName === dogName);
+    // Find the trick in the dog's tricks array
+    const trick = dog.tricks.find((trick) => trick.trick === tricks);
+    // Update the status of the trick
+    trick.status = status;
+    // Update dog in list of dogs
     setDogs([...dogs]);
   }
 
@@ -45,7 +62,8 @@ export const AuthProvider = ({ children }) => {
     addDog, 
     dogs, 
     setDogs,
-    addDogTricks
+    addDogTricks, 
+    updateDogTricksStatus, 
   };
 
   return (
