@@ -4,12 +4,18 @@ import CustomBtn from "../CustomBtn";
 import { useAuth } from "../../context/AuthContext";
 
 export default function DogTrick({ item, name }) {
-  const { updateDogTricksStatus } = useAuth();
+  const { updateDogTricksStatus, removeTrick } = useAuth();
 
   function updateTrickLevel(level) {
     updateDogTricksStatus(name, item.trick, level);
     console.log(item.status);
   }
+
+  function removeTrickFromDog() {
+    removeTrick(name, item.trick);
+  }
+
+
 
   return (
     <View style={styles.trickOutsiderContainer}>
@@ -34,6 +40,13 @@ export default function DogTrick({ item, name }) {
           color={item.status === "high" ? "white" : "black"}
         />
       </View>
+      <CustomBtn
+        text="Remove"
+        icon="trash"
+        onPress={removeTrickFromDog}
+        color="red"
+      />
+
     </View>
   );
 }

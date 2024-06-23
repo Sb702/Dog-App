@@ -27,6 +27,18 @@ export const AuthProvider = ({ children }) => {
     setDogs([...dogs, { dogName, dogBreed, dogAge }]);
   }
 
+  const updateDog = (dogName, dogBreed, dogAge, originalName) => {
+    // console.log(dogName, "dogName")
+    // Find dog in list of dogs
+    const dog = dogs.find((dog) => dog.dogName === originalName);
+    // Update dog's breed and age
+    dog.dogName = dogName;
+    dog.dogBreed = dogBreed;
+    dog.dogAge = dogAge;
+    // Update dog in list of dogs
+    setDogs([...dogs]);
+  }
+
   const addDogTricks = (dogName, tricks, status) => {
     // find dog in list of dogs
     const dog = dogs.find((dog) => dog.dogName === dogName);
@@ -53,6 +65,15 @@ export const AuthProvider = ({ children }) => {
     setDogs([...dogs]);
   }
 
+  const removeTrick = (dogName, tricks) => {
+    // Find dog in list of dogs
+    const dog = dogs.find((dog) => dog.dogName === dogName);
+    // Remove the trick from the dog's tricks array
+    dog.tricks = dog.tricks.filter((trick) => trick.trick !== tricks);
+    // Update dog in list of dogs
+    setDogs([...dogs]);
+  }
+
   const value = {
     isLoggedIn,
     setIsLoggedIn,
@@ -64,6 +85,8 @@ export const AuthProvider = ({ children }) => {
     setDogs,
     addDogTricks, 
     updateDogTricksStatus, 
+    updateDog,
+    removeTrick
   };
 
   return (

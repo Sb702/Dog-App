@@ -5,22 +5,10 @@ import { useAuth } from "../../context/AuthContext";
 import DogTrick from "./DogTrick";
 
 export default function DogTricks({ dog }) {
-  const { addDogTricks } = useAuth();
-  const [trick, setTrick] = useState("");
 
-  function addTrick() {
-    addDogTricks(dog.dogName, trick, "beginner");
-  }
 
   return (
     <View>
-      <View style={styles.trickOutContainer}>
-        <TextInput
-          placeholder="Trick"
-          onChangeText={(text) => setTrick(text)}
-        />
-        <CustomBtn text="Add Trick" icon="add" onPress={addTrick} />
-      </View>
       {dog.tricks && (
         <FlatList
           data={dog.tricks}

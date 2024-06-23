@@ -9,6 +9,11 @@ export default function AddDogForm({ navigation }) {
   const [dogAge, setDogAge] = useState("");
   const { addDog } = useAuth();
 
+  function handleSubmit() {
+    addDog(dogName, dogBreed, dogAge);
+    navigation.goBack();
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Add Dog</Text>
@@ -36,7 +41,7 @@ export default function AddDogForm({ navigation }) {
           icon="add"
           text="Add Dog"
           onPress={() => {
-            addDog(dogName, dogBreed, dogAge);
+            handleSubmit();
           }}
         />
       </View>
