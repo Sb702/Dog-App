@@ -57,10 +57,31 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const addDog = (dogName, dogBreed, dogAge) => {
-    // add dog to list of dogs
-    setDogs([...dogs, { dogName, dogBreed, dogAge }]);
-  };
+const addDog = async (dogName, dogBreed, dogAge, userId) => {
+  console.log(userId, "ctx");
+  // add dog to database
+  const response = await fetch("http://192.168.0.253:5000/addDog", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: dogName, breed: dogBreed, age: dogAge, userId: userId }),
+  })
+  .then((response) => {
+    if (response.status === 201) {
+      // add dog to list of dogs
+      setDogs([...dogs, { dogName, dogBreed, dogAge }]);
+    }
+    return response.json(); // Parse JSON only once
+  })
+  .then((data) => {
+    console.log(data);
+    // If you need to do something with the data, do it here
+  })
+  .catch((error) => {
+    console.error("Error adding dog:", error);
+  });
+};
 
   const updateDog = (dogName, dogBreed, dogAge, originalName) => {
     // console.log(dogName, "dogName")

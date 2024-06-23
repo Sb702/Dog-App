@@ -7,11 +7,15 @@ export default function AddDogForm({ navigation }) {
   const [dogName, setDogName] = useState("");
   const [dogBreed, setDogBreed] = useState("");
   const [dogAge, setDogAge] = useState("");
-  const { addDog } = useAuth();
+  const { addDog, user } = useAuth();
+
+  // console.log(user.id)
 
   function handleSubmit() {
-    addDog(dogName, dogBreed, dogAge);
-    navigation.goBack();
+    // addDog(dogName, dogBreed, dogAge, userId: user.id);
+    console.log(dogName, dogBreed, dogAge, user.id)
+    addDog(dogName, dogBreed, dogAge, user.id);
+
   }
 
   return (

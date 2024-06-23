@@ -47,10 +47,11 @@ router.post("/addDog", async (req, res) => {
     });
     try {
         const newDog = await dog.save();
-        res.status(201).json("Dog added successfully");
+        res.status(201).json({ message: "Dog added successfully" });
     } catch (error) {
-        res.status(400).json({ error: error });
+        res.status(400).json({ error: error.message });
     }
-    });
+});
+
 
 module.exports = router;
