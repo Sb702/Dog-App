@@ -9,7 +9,7 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({ username: "sam", password: "" });
+  const [user, setUser] = useState({ username: "sam", id: "" });
   const [dogs, setDogs] = useState([
     { dogName: "Rex", dogBreed: "German Shepherd", dogAge: 5 },
     { dogName: "Max", dogBreed: "Golden Retriever", dogAge: 3 },
@@ -24,45 +24,38 @@ export const AuthProvider = ({ children }) => {
     fetch("http://192.168.0.253:5000/register", {
       method: "POST",
       headers: {
-      "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ username: username, password: password }),
     })
       .then((response) => {
-      if (response.status === 200) {
-        setUser({ username, password });
-      }
-      return response.json();
+        if (response.status === 200) {
+          setUser({ username, password });
+        }
+        return response.json();
       })
       .then((data) => console.log(data))
       .catch((error) => console.error(error.message));
-  }
+  };
 
- const loginUser = async (username, password) => {
-  try {
-    const response = await fetch("http://192.168.0.253:5000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username: username, password: password }),
-    });
-
-    const data = await response.json();
-    if (response.status === 200) {
-      setUser({ username, password });
-      console.log(data);
-      return true; // Indicate success
-    } else {
-      console.error(data.message);
-      return false; // Indicate failure
+  const loginUser = async (username, password) => {
+    try {
+      const response = await fetch("http://192.168.0.253:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username: username, password: password }),
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        setUser({ username: data.username, id: data._id });
+      }
+      return { success: true, user: { username: data.username, id: data._id } };
+    } catch (error) {
+      console.error(error.message);
     }
-  } catch (error) {
-    console.error(error.message);
-    return false; // Indicate error
-  }
-};
-
+  };
 
   const addDog = (dogName, dogBreed, dogAge) => {
     // add dog to list of dogs

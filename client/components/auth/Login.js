@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function Login({ setRegister }) {
   const [username, setUsername] = useState(""); // State for username
   const [password, setPassword] = useState(""); // State for password
+  const localUser = useAuth.user;
 
     const navigation = useNavigation();
 
@@ -15,16 +16,18 @@ export default function Login({ setRegister }) {
   // Get the user from AuthContext
   const { user, loginUser } = useAuth();
   // Check if the username and password match the user in the context and if they do navigate to "Home"
-function checkCredentials() {
-  loginUser(username, password).then((loginSuccess) => {
-    if (loginSuccess) {
-      console.log('Credentials match');
-      navigation.navigate('Home');
-    } else {
-      console.log('Credentials do not match or login failed');
-    }
-  });
+async function checkCredentials() {
+  const result = await loginUser(username, password);
+  if (result && result.success) {
+    // If login is successful, navigate to the "Home" screen
+    navigation.navigate("Home");
+  } else {
+    // Optionally, handle login failure (e.g., show an error message)
+    console.log("Login failed:", result.message);
+  }
 }
+
+
 
 
   // If they match, call setIsLoggedIn(true) from the context

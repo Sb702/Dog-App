@@ -37,6 +37,8 @@ export default function AddDogForm({ navigation }) {
           onChangeText={setDogAge}
           placeholder="Dog Age"
         />
+        </View>
+        <View>
         <CustomBtn
           icon="add"
           text="Add Dog"
@@ -51,9 +53,11 @@ export default function AddDogForm({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 20,
-    justifyContent: "left",
-    alignItems: "left",
+    justifyContent: "space-between",
+    alignItems: "center",
+
   },
   headerText: {
     fontSize: 20,
