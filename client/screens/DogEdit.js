@@ -31,7 +31,7 @@ export default function DogEdit({ route }) {
   }, [dog]);
 
   return (
-    <View style ={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <View style={styles.deHeaderCont}>
         {edit ? (
           <TextInput
@@ -69,16 +69,17 @@ export default function DogEdit({ route }) {
         {/* if we are editing we want to call handleSubmit to send the data to our context */}
         {/* <CustomBtn icon="pencil" text="Edit" onPress={() => setEdit(!edit)} /> */}
         <CustomBtn
-          icon={edit? "enter" : "pencil"}
+          icon={edit ? "enter" : "pencil"}
           color={"white"}
           onPress={edit ? handleSubmit : () => setEdit(!edit)}
         />
       </View>
-        <View style={{ flex: 1 }}>
-      <DogTricks dog={dog} />
+      <View style={{ flex: 1 }}>
+        <DogTricks dog={dog} />
       </View>
       <View style={styles.trickOutContainer}>
         <TextInput
+          style={styles.trickInput}
           placeholder="Trick"
           onChangeText={(text) => setTrick(text)}
         />
@@ -136,5 +137,16 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     padding: 10,
     gap: 10,
+  },
+  trickInput: {
+    fontSize: 20,
+    fontWeight: "bold",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
+    paddingHorizontal: 15,
+    backgroundColor: "lightgray",
+    color: "black",
+    width: 200,
   },
 });
