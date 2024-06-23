@@ -13,16 +13,18 @@ export default function Login({ setRegister }) {
 
 
   // Get the user from AuthContext
-  const { user, setIsLoggedIn } = useAuth();
+  const { user, loginUser } = useAuth();
   // Check if the username and password match the user in the context and if they do navigate to "Home"
-  function checkCredentials() {
-    if (username === user.username && password === user.password) {
-        console.log('Credentials match');
-        navigation.navigate('Home');
+function checkCredentials() {
+  loginUser(username, password).then((loginSuccess) => {
+    if (loginSuccess) {
+      console.log('Credentials match');
+      navigation.navigate('Home');
+    } else {
+      console.log('Credentials do not match or login failed');
     }
-    return false;
-  }
-
+  });
+}
 
 
   // If they match, call setIsLoggedIn(true) from the context

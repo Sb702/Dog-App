@@ -27,8 +27,8 @@ function App() {
     <AuthProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={HomeTabs} />
           <Stack.Screen name="Login" component={AuthScreen} />
+          <Stack.Screen name="Home" component={HomeTabs} />
           <Stack.Screen
             name="Dogs"
             component={AddDogForm}
