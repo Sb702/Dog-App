@@ -68,13 +68,33 @@ router.post("/addDog", async (req, res) => {
 
 router.post("/addTrick", async (req, res) => {
   const { dogName, trick, difficulty, userId } = req.body;
+
+  console.log(dogName, trick, difficulty, userId);
+
+  // try {
+  //   const dog = await Dog.findOne({ name: dogName });
+  //   dog.tricks.push({ trick, difficulty });
+  //   await dog.save();
+  //   res.status(201).json({ message: "Trick added successfully" });
+  // } catch (error) {
+  //   res.status(400).json({ error: error.message });
+  // }
+});
+
+router.post("/updateDog", async (req, res) => {
+  const { name, breed, age, originalName, userId } = req.body;
+  // console.log(name, breed, age, originalName, userId);
   try {
-    const dog = await Dog.findOne({ name: dogName });
-    dog.tricks.push({ trick, difficulty });
+    // const dog = dogs.find((dog) => dog.dogName === originalName && dog.userId === id);
+    const dog = await Dog.findOne({ name: originalName, userId });
+    // console.log(dog, "dog from /updateDog"); 
+    dog.name = name;
+    dog.breed = breed;
+    dog.age = age;
     await dog.save();
-    res.status(201).json({ message: "Trick added successfully" });
+    res.status(201).json({ message: "Dog updated successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.message, message: "from /updateDog"});
   }
 });
 

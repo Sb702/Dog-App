@@ -23,6 +23,7 @@ app.post('/login', userRoutes);
 
 app.post('/addDog', userRoutes);
 app.post('/getDogs', userRoutes);
+app.post('/updateDog', userRoutes);
 
 app.post('/addTrick', userRoutes);
 

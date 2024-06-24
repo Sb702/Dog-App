@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
           body: JSON.stringify({ userId: data._id }),
         });
         const dogsData = await dogsResponse.json();
-        console.log(dogsData, "dogsData ctx line 62");
+        // console.log(dogsData, "dogsData ctx line 62");
         const newDogs = dogsData.map((dog) => ({
           dogName: dog.name,
           dogBreed: dog.breed,
@@ -107,13 +107,42 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
-  const updateDog = (dogName, dogBreed, dogAge, originalName) => {
-    const dog = dogs.find((dog) => dog.dogName === originalName);
-    dog.dogName = dogName;
-    dog.dogBreed = dogBreed;
-    dog.dogAge = dogAge;
+  const updateDog = async (dogName, dogBreed, dogAge, originalName, id) => {
+    // const dog = dogs.find((dog) => dog.dogName === originalName);
+    const dog = dogs.find((dog) => dog.dogName === originalName && dog.userId === id);
+    // console.log(dog, "dog from ctx, line 113")
+    // console.log(dogName, dogBreed, dogAge, originalName, id, "from ctx 114")
 
-    setDogs([...dogs]);
+    const response = await fetch("http://192.168.0.253:5000/updateDog", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: dogName,
+        breed: dogBreed,
+        age: dogAge,
+        originalName: originalName,
+        userId: id,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          dog.dogName = dogName;
+          dog.dogBreed = dogBreed;
+          dog.dogAge = dogAge;
+          setDogs([...dogs]);
+        }
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error.message, "error from ctx 137"));
+
+    // dog.dogName = dogName;
+    // dog.dogBreed = dogBreed;
+    // dog.dogAge = dogAge;
+
+    // setDogs([...dogs]);
   };
 
   const addDogTricks = (dogName, tricks, status, id) => {

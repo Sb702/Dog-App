@@ -23,14 +23,17 @@ export default function DogEdit({ route }) {
   }
 
   function handleSubmit() {
-    // console.log(dogName);
-    updateDog(dogName, dogBreed, dogAge, originalName);
+    setOriginalName(dogName);
+    // console.log(dogName, dogBreed, dogAge, originalName, user.id, "from DogEdit.js 26");
+    updateDog(dogName, dogBreed, dogAge, originalName, user.id);
     setEdit(!edit);
   }
 
   useEffect(() => {
-    setOriginalName(dog.dogName);
-  }, [dog]);
+    console.log(dogAge);
+  }, [dogAge, edit]);
+
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -63,7 +66,6 @@ export default function DogEdit({ route }) {
             keyboardType="numeric"
             onChangeText={(text) => setDogAge(text)}
           >
-            {dog.dogAge}
           </TextInput>
         ) : (
           <Text style={styles.deText}>{dog.dogAge}</Text>
