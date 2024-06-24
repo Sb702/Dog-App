@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomBtn from "../CustomBtn";
 import { useAuth } from "../../context/AuthContext";
@@ -7,6 +7,7 @@ export default function DogTrick({ item, name }) {
   const { updateDogTricksStatus, removeTrick, user } = useAuth();
   // console.log(item, "item from DogTrick")
   const [currentDifficulty, setCurrentDifficulty] = useState(item.difficulty);
+
 
   function updateTrickLevel(level) {
     updateDogTricksStatus(name, item.trick, level, user.id);

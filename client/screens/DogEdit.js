@@ -18,7 +18,7 @@ export default function DogEdit({ route }) {
 
   
   function addTrick() {
-    addDogTricks(dog.dogName, trick, "beginner", user.id);
+    addDogTricks(dog.dogName, trick, "low", user.id);
     // console.log(user, "user in DogEdit.js");
   }
 

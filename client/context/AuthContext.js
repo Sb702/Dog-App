@@ -156,7 +156,7 @@ export const AuthProvider = ({ children }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ dogName: dogName, trick: tricks, status: status, userId: id }),
+      body: JSON.stringify({ dogName: dogName, trick: tricks, difficulty: status, userId: id }),
     })
       .then((response) => {
         if (response.status === 201) {
