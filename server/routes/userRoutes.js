@@ -37,6 +37,19 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/getDogs", async (req, res) => {
+  const { userId } = req.body;
+  // console.log(userId, "userId")
+  try {
+    // filter by the userId
+    const dogs = await Dog.find({ userId });
+    // console.log(dogs, "dogs")
+    res.status(200).json(dogs);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+});
+
 router.post("/addDog", async (req, res) => {
     const { name, breed, age, userId } = req.body;
     const dog = new Dog({

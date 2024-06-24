@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function DogList() {
   const { dogs } = useAuth();
+  console.log(dogs, "Doglist.js line 10")
 
   const navigation = useNavigation();
 

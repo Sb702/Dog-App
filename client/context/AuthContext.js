@@ -50,6 +50,23 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
       if (response.status === 200) {
         setUser({ username: data.username, id: data._id });
+        // find the users dogs in the db based on the user id
+        const dogsResponse = await fetch("http://192.168.0.253:5000/getDogs", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId: data._id }),
+        });
+        const dogsData = await dogsResponse.json();
+        console.log(dogsData, "dogsData");
+        const newDogs = dogsData.map((dog) => ({
+          dogName: dog.name,
+          dogBreed: dog.breed,
+          dogAge: dog.age,
+        }));
+        setDogs(newDogs);
+        console.log(dogs, "dogs ctx line 69");
       }
       return { success: true, user: { username: data.username, id: data._id } };
     } catch (error) {
@@ -57,31 +74,36 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-const addDog = async (dogName, dogBreed, dogAge, userId) => {
-  console.log(userId, "ctx");
-  // add dog to database
-  const response = await fetch("http://192.168.0.253:5000/addDog", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name: dogName, breed: dogBreed, age: dogAge, userId: userId }),
-  })
-  .then((response) => {
-    if (response.status === 201) {
-      // add dog to list of dogs
-      setDogs([...dogs, { dogName, dogBreed, dogAge }]);
-    }
-    return response.json(); // Parse JSON only once
-  })
-  .then((data) => {
-    console.log(data);
-    // If you need to do something with the data, do it here
-  })
-  .catch((error) => {
-    console.error("Error adding dog:", error);
-  });
-};
+  const addDog = async (dogName, dogBreed, dogAge, userId) => {
+    console.log(userId, "ctx");
+    // add dog to database
+    const response = await fetch("http://192.168.0.253:5000/addDog", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: dogName,
+        breed: dogBreed,
+        age: dogAge,
+        userId: userId,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          // add dog to list of dogs
+          setDogs([...dogs, { dogName, dogBreed, dogAge }]);
+        }
+        return response.json(); // Parse JSON only once
+      })
+      .then((data) => {
+        console.log(data);
+        // If you need to do something with the data, do it here
+      })
+      .catch((error) => {
+        console.error("Error adding dog:", error);
+      });
+  };
 
   const updateDog = (dogName, dogBreed, dogAge, originalName) => {
     // console.log(dogName, "dogName")

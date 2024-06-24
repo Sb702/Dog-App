@@ -15,7 +15,7 @@ export default function AddDogForm({ navigation }) {
     // addDog(dogName, dogBreed, dogAge, userId: user.id);
     console.log(dogName, dogBreed, dogAge, user.id)
     addDog(dogName, dogBreed, dogAge, user.id);
-
+    navigation.goBack();
   }
 
   return (
