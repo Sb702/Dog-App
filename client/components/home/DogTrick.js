@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CustomBtn from "../CustomBtn";
 import { useAuth } from "../../context/AuthContext";
 
 export default function DogTrick({ item, name }) {
   const { updateDogTricksStatus, removeTrick, user } = useAuth();
+  // console.log(item, "item from DogTrick")
+  const [currentDifficulty, setCurrentDifficulty] = useState(item.difficulty);
 
   function updateTrickLevel(level) {
-    updateDogTricksStatus(name, item.trick, level);
-    console.log(item.status);
+    updateDogTricksStatus(name, item.trick, level, user.id);
+
+    setCurrentDifficulty(level);
   }
 
   function removeTrickFromDog() {
@@ -25,19 +28,19 @@ export default function DogTrick({ item, name }) {
           text="Low"
           icon="add"
           onPress={() => updateTrickLevel("low")}
-          color={item.status === "low" ? "white" : "black"}
+          color={currentDifficulty === "low" ? "white" : "black"}
         />
         <CustomBtn
           text="Medium"
           icon="add"
           onPress={() => updateTrickLevel("medium")}
-          color={item.status === "medium" ? "white" : "black"}
+          color={currentDifficulty === "medium" ? "white" : "black"}
         />
         <CustomBtn
           text="High"
           icon="add"
           onPress={() => updateTrickLevel("high")}
-          color={item.status === "high" ? "white" : "black"}
+          color={currentDifficulty === "high" ? "white" : "black"}
         />
       </View>
       <CustomBtn

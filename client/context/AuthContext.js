@@ -178,15 +178,24 @@ export const AuthProvider = ({ children }) => {
     // console.log(dogs);
   };
 
-  const updateDogTricksStatus = (dogName, tricks, status) => {
+  const updateDogTricksStatus = async (dogName, trick, status, id) => {
+    // console.log(dogName, trick, status, id, "from ctx 182")
     // Find dog in list of dogs
     const dog = dogs.find((dog) => dog.dogName === dogName);
-    // Find the trick in the dog's tricks array
-    const trick = dog.tricks.find((trick) => trick.trick === tricks);
-    // Update the status of the trick
-    trick.status = status;
-    // Update dog in list of dogs
-    setDogs([...dogs]);
+
+    const response = await fetch("http://192.168.0.253:5000/updateTrickStatus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ dogName: dogName, trick: trick, status: status, userId: id }),
+    })
+
+      const data = await response.json();
+      // console.log(data);
+
+        // update the trick status for the trick in the dog in the list of dogs for just the trick that was updated
+
   };
 
   const removeTrick = async (dogName, tricks, id) => {

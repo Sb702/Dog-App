@@ -95,6 +95,27 @@ router.post("/removeTrick", async (req, res) => {
   }
 });
 
+// update dog trick status
+router.post("/updateTrickStatus", async (req, res) => {
+  const { dogName, trick, status, userId } = req.body;
+  try {
+    const dog = await Dog.findOne({ name: dogName, userId });
+    if (!dog) {
+      return res.status(404).json({ message: "Dog not found" });
+    }
+    const trickToUpdate = dog.tricks.find((item) => item.trick === trick);
+    if (!trickToUpdate) {
+      return res.status(404).json({ message: "Trick not found" });
+    }
+    trickToUpdate.difficulty = status;
+    dog.markModified('tricks'); // Mark the 'tricks' array as modified
+    await dog.save();
+    res.status(201).json({ message: "Trick updated successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 router.post("/updateDog", async (req, res) => {
   const { name, breed, age, originalName, userId } = req.body;
   // console.log(name, breed, age, originalName, userId);
