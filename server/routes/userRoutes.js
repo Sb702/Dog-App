@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
-//   console.log(username, password);
+  //   console.log(username, password);
   try {
     const user = await User.findOne({ username, password });
     if (user) {
@@ -51,20 +51,31 @@ router.post("/getDogs", async (req, res) => {
 });
 
 router.post("/addDog", async (req, res) => {
-    const { name, breed, age, userId } = req.body;
-    const dog = new Dog({
-        name,
-        breed,
-        age,
-        userId,
-    });
-    try {
-        const newDog = await dog.save();
-        res.status(201).json({ message: "Dog added successfully" });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+  const { name, breed, age, userId } = req.body;
+  const dog = new Dog({
+    name,
+    breed,
+    age,
+    userId,
+  });
+  try {
+    const newDog = await dog.save();
+    res.status(201).json({ message: "Dog added successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
+router.post("/addTrick", async (req, res) => {
+  const { dogName, trick, difficulty, userId } = req.body;
+  try {
+    const dog = await Dog.findOne({ name: dogName });
+    dog.tricks.push({ trick, difficulty });
+    await dog.save();
+    res.status(201).json({ message: "Trick added successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
 
 module.exports = router;

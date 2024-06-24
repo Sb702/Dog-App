@@ -13,11 +13,13 @@ export default function DogEdit({ route }) {
   const [dogBreed, setDogBreed] = useState(dog.dogBreed);
   const [dogAge, setDogAge] = useState(dog.dogAge);
 
-  const { addDogTricks } = useAuth();
+  const { addDogTricks, user } = useAuth();
   const [trick, setTrick] = useState("");
 
+  
   function addTrick() {
-    addDogTricks(dog.dogName, trick, "beginner");
+    addDogTricks(dog.dogName, trick, "beginner", user.id);
+    // console.log(user, "user in DogEdit.js");
   }
 
   function handleSubmit() {

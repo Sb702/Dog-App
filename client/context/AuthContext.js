@@ -59,14 +59,16 @@ export const AuthProvider = ({ children }) => {
           body: JSON.stringify({ userId: data._id }),
         });
         const dogsData = await dogsResponse.json();
-        console.log(dogsData, "dogsData");
+        console.log(dogsData, "dogsData ctx line 62");
         const newDogs = dogsData.map((dog) => ({
           dogName: dog.name,
           dogBreed: dog.breed,
           dogAge: dog.age,
+          tricks: dog.tricks,
+          userId: dog.userId,
         }));
         setDogs(newDogs);
-        console.log(dogs, "dogs ctx line 69");
+        // console.log(dogs, "dogs ctx line 69");
       }
       return { success: true, user: { username: data.username, id: data._id } };
     } catch (error) {
@@ -92,7 +94,7 @@ export const AuthProvider = ({ children }) => {
       .then((response) => {
         if (response.status === 201) {
           // add dog to list of dogs
-          setDogs([...dogs, { dogName, dogBreed, dogAge }]);
+          setDogs([...dogs, { dogName, dogBreed, dogAge, userId }]);
         }
         return response.json(); // Parse JSON only once
       })
@@ -106,32 +108,45 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateDog = (dogName, dogBreed, dogAge, originalName) => {
-    // console.log(dogName, "dogName")
-    // Find dog in list of dogs
     const dog = dogs.find((dog) => dog.dogName === originalName);
-    // Update dog's breed and age
     dog.dogName = dogName;
     dog.dogBreed = dogBreed;
     dog.dogAge = dogAge;
-    // Update dog in list of dogs
+
     setDogs([...dogs]);
   };
 
-  const addDogTricks = (dogName, tricks, status) => {
-    // find dog in list of dogs
-    const dog = dogs.find((dog) => dog.dogName === dogName);
-    // Add tricks and status to dog combined together as one object inside of the dogs array
-    // dog.tricks = dog.tricks ? [...dog.tricks, tricks] : [tricks];
-    // dog.status = dog.status ? [...dog.status, status] : [status];
+  const addDogTricks = (dogName, tricks, status, id) => {
+    // console.log(id, "id from ctx")
+    const dog = dogs.find((dog) => dog.dogName === dogName && dog.userId === id);
+    // console.log(dog, "dog from ctx")
+    // if the dog is found add the trick to the dog in the database 
+
+    fetch("http://192.168.0.253:5000/addTrick", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ dogName: dogName, trick: tricks, status: status, userId: id }),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          // add trick to dog in list of dogs
+          dog.tricks = dog.tricks
+            ? [...dog.tricks, { trick: tricks, status: status }]
+            : [{ trick: tricks, status: status }];
+          setDogs([...dogs]);
+        }
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error.message));
+    // console.log(tricks, "tricks from ctx")
     dog.tricks = dog.tricks
       ? [...dog.tricks, { trick: tricks, status: status }]
       : [{ trick: tricks, status: status }];
-
-    // if no status make the default "low"
-    // dog.tricks = dog.tricks ? [...dog.tricks, {trick: tricks, status: status}] : [{trick: tricks, status: "low"}];
-    // update dog in list of dogs
     setDogs([...dogs]);
-    console.log(dogs);
+    // console.log(dogs);
   };
 
   const updateDogTricksStatus = (dogName, tricks, status) => {

@@ -15,8 +15,11 @@ const dogSchema = new mongoose.Schema({
     }, 
     userId: {
         type: String,
-
-    }
+    },
+    tricks: {
+        type: Array,
+        default: []
+    },
 });
 
 module.exports = mongoose.model('Dog', dogSchema);
