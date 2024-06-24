@@ -29,10 +29,6 @@ export default function DogEdit({ route }) {
     setEdit(!edit);
   }
 
-  useEffect(() => {
-    console.log(dogAge);
-  }, [dogAge, edit]);
-
 
 
   return (
