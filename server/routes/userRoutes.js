@@ -71,14 +71,28 @@ router.post("/addTrick", async (req, res) => {
 
   console.log(dogName, trick, difficulty, userId);
 
-  // try {
-  //   const dog = await Dog.findOne({ name: dogName });
-  //   dog.tricks.push({ trick, difficulty });
-  //   await dog.save();
-  //   res.status(201).json({ message: "Trick added successfully" });
-  // } catch (error) {
-  //   res.status(400).json({ error: error.message });
-  // }
+  try {
+    const dog = await Dog.findOne({ name: dogName });
+    dog.tricks.push({ trick, difficulty });
+    await dog.save();
+    res.status(201).json({ message: "Trick added successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+router.post("/removeTrick", async (req, res) => {
+  const { dogName, trick, id } = req.body;
+  // console.log(dogName, trick, id, "from /removeTrick")
+  try {
+    const dog = await Dog.findOne({ name: dogName, userId: id });
+    // console.log(dog);
+    dog.tricks = dog.tricks.filter((item) => item.trick !== trick);
+    await dog.save();
+    res.status(201).json({ message: "Trick removed successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
 router.post("/updateDog", async (req, res) => {

@@ -4,7 +4,7 @@ import CustomBtn from "../CustomBtn";
 import { useAuth } from "../../context/AuthContext";
 
 export default function DogTrick({ item, name }) {
-  const { updateDogTricksStatus, removeTrick } = useAuth();
+  const { updateDogTricksStatus, removeTrick, user } = useAuth();
 
   function updateTrickLevel(level) {
     updateDogTricksStatus(name, item.trick, level);
@@ -12,7 +12,7 @@ export default function DogTrick({ item, name }) {
   }
 
   function removeTrickFromDog() {
-    removeTrick(name, item.trick);
+    removeTrick(name, item.trick, user.id);
   }
 
 

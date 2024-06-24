@@ -189,11 +189,28 @@ export const AuthProvider = ({ children }) => {
     setDogs([...dogs]);
   };
 
-  const removeTrick = (dogName, tricks) => {
+  const removeTrick = async (dogName, tricks, id) => {
     // Find dog in list of dogs
-    const dog = dogs.find((dog) => dog.dogName === dogName);
-    // Remove the trick from the dog's tricks array
-    dog.tricks = dog.tricks.filter((trick) => trick.trick !== tricks);
+    // const dog = dogs.find((dog) => dog.dogName === originalName && dog.userId === id);
+    const dog = dogs.find((dog) => dog.dogName === dogName && dog.userId === id);
+
+    const response = await fetch("http://192.168.0.253:5000/removeTrick", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ dogName: dogName, trick: tricks, id: id }),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          // remove trick from dog in list of dogs
+          dog.tricks = dog.tricks.filter((item) => item.trick !== tricks);
+          setDogs([...dogs]);
+        }
+        return response.json();
+      })
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error.message));
     // Update dog in list of dogs
     setDogs([...dogs]);
   };
