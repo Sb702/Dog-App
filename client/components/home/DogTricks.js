@@ -6,7 +6,6 @@ import DogTrick from "./DogTrick";
 
 export default function DogTricks({ dog }) {
 
-
   return (
     <View>
       {dog.tricks && (

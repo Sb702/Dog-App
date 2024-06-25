@@ -12,6 +12,7 @@ import AddDogForm from "./components/home/AddDogForm";
 import AiScreen from "./screens/AiScreen";
 import ProgressScreen from "./screens/ProgressScreen";
 import { Ionicons } from "@expo/vector-icons";
+import TrickEditScreen from "./screens/TrickEditScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

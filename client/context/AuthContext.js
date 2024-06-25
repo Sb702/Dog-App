@@ -171,10 +171,6 @@ export const AuthProvider = ({ children }) => {
       .then((data) => console.log(data))
       .catch((error) => console.error(error.message));
     // console.log(tricks, "tricks from ctx")
-    dog.tricks = dog.tricks
-      ? [...dog.tricks, { trick: tricks, status: status }]
-      : [{ trick: tricks, status: status }];
-    setDogs([...dogs]);
     // console.log(dogs);
   };
 

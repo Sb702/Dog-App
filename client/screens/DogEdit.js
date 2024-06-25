@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Keyboard, ScrollView, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import DogTricks from "../components/home/DogTricks";
 import CustomBtn from "../components/CustomBtn";
 import { useAuth } from "../context/AuthContext";
@@ -19,7 +19,7 @@ export default function DogEdit({ route }) {
   
   function addTrick() {
     addDogTricks(dog.dogName, trick, "low", user.id);
-    // console.log(user, "user in DogEdit.js");
+
   }
 
   function handleSubmit() {
@@ -32,8 +32,9 @@ export default function DogEdit({ route }) {
 
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={{ flex: 1 }}>
-      <View style={styles.deHeaderCont}>
+      <View style={styles.deTextBox}>
         {edit ? (
           <TextInput
             style={styles.deTextInputHeader}
@@ -43,7 +44,6 @@ export default function DogEdit({ route }) {
         ) : (
           <Text style={styles.deHeaderText}>{dog.dogName}</Text>
         )}
-      </View>
       <View style={styles.deTextBox}>
         {edit ? (
           <TextInput
@@ -66,6 +66,8 @@ export default function DogEdit({ route }) {
         ) : (
           <Text style={styles.deText}>{dog.dogAge}</Text>
         )}
+      </View>
+
         {/* if we are editing we want to call handleSubmit to send the data to our context */}
         {/* <CustomBtn icon="pencil" text="Edit" onPress={() => setEdit(!edit)} /> */}
         <CustomBtn
@@ -86,6 +88,7 @@ export default function DogEdit({ route }) {
         <CustomBtn text="Add Trick" icon="add" onPress={addTrick} />
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -94,11 +97,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  deHeaderCont: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
   deHeaderText: {
     textAlign: "center",
     fontSize: 30,
@@ -106,9 +104,10 @@ const styles = StyleSheet.create({
   },
   deTextBox: {
     flexDirection: "row",
-    gap: 10,
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignItems: "center",
+    marginTop: 10,
+    gap: 10,
   },
   deText: {
     fontSize: 20,

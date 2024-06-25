@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
 import CustomBtn from "../CustomBtn.js";
@@ -19,6 +19,7 @@ export default function AddDogForm({ navigation }) {
   }
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <Text style={styles.headerText}>Add Dog</Text>
       <View style={{ flexDirection: "column" }}>
@@ -52,6 +53,7 @@ export default function AddDogForm({ navigation }) {
         />
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
